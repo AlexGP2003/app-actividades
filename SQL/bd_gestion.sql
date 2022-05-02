@@ -70,8 +70,9 @@ CREATE TABLE `topicos` (
 
 CREATE TABLE `usuario` (
   `Id` int(5) NOT NULL,
+  `usuario` text NOT NULL,
   `mail` text NOT NULL,
-  `password` text NOT NULL
+  `pass` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
