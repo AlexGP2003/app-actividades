@@ -10,11 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!--CSS-->
     <link rel="stylesheet" href="../css/main.css">
+    <!--SWEETALERT-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
 </head>
 <body class="b_registro">
   <?php
+  //Miramos la variable error, si esta seteada miramos el numero de error
   if (isset($_GET['error'])){
     if($_GET['error']==0){
       echo "<script>Swal.fire({
@@ -50,6 +52,7 @@
       }
   }
   ?>
+  <!--Menu Registrarse-->
 <div class="Centrado">
 <form action="../logic/checkuser.logic.php" method="POST">
     <h1>Regístrate</h1>
@@ -74,7 +77,7 @@
   <button type="submit" class="btn btn-secondary" name="Enviar">Regístrate</button>
   </div>
   <div class="column-2">
-  <a href="../index.html" type="button" class="btn btn-secondary">Volver</a>
+  <a href="../index.html" type="button" class="btn btn-secondary br_boton">Volver</a>
   </div>
   <br>
   </form>

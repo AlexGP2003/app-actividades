@@ -34,20 +34,25 @@
                         <a class="nav-link active disabled" aria-current="page" href="./actividades.html">Actividades</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <button class="btn btn-light form-control me-1" type="submit"><i
-                            class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                <div class="d-flex">
                     <?php
                     //Comprobamos que la sesión está iniciada. 
                     session_start();
+                    //Incluiremos el fichero de conexión 
+                    include '../query/connection.php';
                     //Si lo esta y tiene establecida la variable de sesión usuario, le pondremos un boton para cerrar sesión que lo redirija a la lógica para cerrar sesión, sino uno de login que lo redirija al formulario del login
                     if (isset($_SESSION['user'])){
+                        $sql3="SELECT Id FROM `usuario` WHERE usuario='{$_SESSION['user']}';";
+                        $query3=mysqli_query($connection,$sql3);
+                        $IdUser=mysqli_fetch_array($query3);
+                        echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
                     }else{
+                        echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
                     }
                     ?>                
-                </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -56,8 +61,6 @@
     <h4 class="column-1 padding-m">Top 5</h4>
     <div class="column-1 padding-s">
     <?php
-    //Incluiremos el fichero de conexión 
-    include '../query/connection.php';
     // Realizaremos la sentencia donde contaremos todas las personas que le han dado like a la imagen, agrupandola por la imagen, junto a la Id de la actividad y la url.
     $sql1="SELECT count(f.Id) as numlikes, f.Actividad as Actividad, a.imagen as link from actividad a inner join favoritos f on A.Id=f.Actividad group by f.Actividad;";
     //Realizaremos la query

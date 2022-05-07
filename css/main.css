@@ -194,6 +194,7 @@ img {
 }
 
 
+
 /* Responsive: 800px */
 
 @media only screen and (max-width: 800px) {
@@ -247,6 +248,23 @@ img {
     .padding-l {
         padding: 0;
     }
+    .Centrado {
+        padding: 3%;
+        padding-bottom: 19%;
+        margin-left: 25%;
+        margin-right: 25%;
+        text-align: center;
+        margin-top: 7%;
+        border-color: gray;
+        border-radius: 5%;
+        border-width: 10%;
+        border-style: groove;
+        background-color: #d0d0d0;
+    }
+    .br_boton{
+        margin: 10%;
+    }
+
 }
 
 
@@ -275,5 +293,18 @@ img {
     }
     .but_index {
         margin-bottom: 1%;
+    }
+    .Centrado {
+        padding: 3%;
+        padding-bottom: 21%;
+        margin-left: 25%;
+        margin-right: 25%;
+        text-align: center;
+        margin-top: 7%;
+        border-color: gray;
+        border-radius: 5%;
+        border-width: 10%;
+        border-style: groove;
+        background-color: #d0d0d0;
     }
 }

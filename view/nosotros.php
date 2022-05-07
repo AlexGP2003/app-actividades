@@ -17,7 +17,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--Menu Nav-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.html">#AppName</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,26 +27,32 @@
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vh;">
                     <li class="nav-item">
-                        <a class="nav-link active disabled" aria-current="page" href="#">Sobre nosotros</a>
+                        <a class="nav-link" href="./nosotros.php">Sobre nosotros</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="./actividades.php">Actividades</a>
+                        <a class="nav-link active disabled" aria-current="page" href="./actividades.html">Actividades</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-                    <button class="btn btn-light form-control me-1" type="submit"><i
-                            class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                <div class="d-flex">
                     <?php
+                    //Comprobamos que la sesión está iniciada. 
                     session_start();
+                    //Incluiremos el fichero de conexión 
+                    include '../query/connection.php';
+                    //Si lo esta y tiene establecida la variable de sesión usuario, le pondremos un boton para cerrar sesión que lo redirija a la lógica para cerrar sesión, sino uno de login que lo redirija al formulario del login
                     if (isset($_SESSION['user'])){
-                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión con {$_SESSION['user']}</a>";
+                        $sql3="SELECT Id FROM `usuario` WHERE usuario='{$_SESSION['user']}';";
+                        $query3=mysqli_query($connection,$sql3);
+                        $IdUser=mysqli_fetch_array($query3);
+                        echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
+                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
                     }else{
+                        echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
                     }
-                    ?> 
-                </form>
+                    ?>                
+                </div>
             </div>
         </div>
     </nav>
@@ -69,27 +76,33 @@
             <h5>Navega</h5>
         </div>
         <div class="column-66 padding-m padding-right">
-            <!-- <h2><strong>#AppName</strong> es un club para explorar, desarrollar y compartir nuestra creatividad natural</h2> -->
             <h4>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, corporis ipsa. Non, exercitationem! Vel enim exercitationem dolores, incidunt, molestias praesentium magnam cumque nostrum aperiam ducimus tempore? Fugit placeat debitis asperiores.</h4>
         </div>
     </div>
 
-    <!-- Random de actividades -->
+    <!-- Actividades subidas recientemente -->
     <div class="row-c padding-m">
         <div class="column-1 padding-m">
             <h5>Subidas recientemente</h5>
         </div>
         <div class="column-1 padding-s">
     <?php
+    //Incluimos el fichero de conexion
     include '../query/connection.php';
+    //Cogemos los datos necesarios
     $sql1="SELECT Fecha_subida, imagen FROM `actividad`;";
     $query1=mysqli_query($connection,$sql1);
+    //Creamos un array asociativo
     $likes=array();
+    //Y lo rellenamos con la url->fecha de subida
     foreach ($query1 as $act) {
         $likes[$act['imagen']]=$act['Fecha_subida'];      
     }
+    //Lo ordenamos de mayor a menor
     arsort($likes);
+    //Creamos un contador para sacarlo del bucle
     $cont=0;
+    //Para cada registro miramos si el contador es diferente a 4, si lo es salimos, sino imprimimos los datos 
     foreach ($likes as $link=>$like){
         if($cont!=4){
             echo "<div class='column-4 padding-s'>";
@@ -99,6 +112,7 @@
         }else{
              break;
         }   
+        //Incrementamos el contador
         $cont++; 
     }  
     ?>

@@ -16,6 +16,7 @@
 </head>
 <body class="b_registro">
 <?php
+//Comprobamos que la clase error esta seteada y dependiendo del numero del erro le mostraremos una alerta
   if (isset($_GET['error'])){
     if($_GET['error']==0){
       echo "<script>Swal.fire({
@@ -35,6 +36,7 @@
       }
   }
 ?>
+<!--Formulario De datos-->
 <div class="Centrado">
 <form action="../logic/login.logic.php" method="POST">
     <h1>Iniciar sesion</h1>
@@ -51,7 +53,7 @@
   <button type="submit" class="btn btn-secondary" name="Enviar">Iniciar Sesión</button>
   </div>
   <div class="column-2">
-  <a href="../index.html" type="button" class="btn btn-secondary">Volver</a>
+  <a href="../index.html" type="button" class="btn btn-secondary br_boton">Volver</a>
   </div>
   <br>
   </form>
