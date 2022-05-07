@@ -7,10 +7,12 @@ if(!empty($_POST['user']) && !empty($_POST['psw'])){
     $query= mysqli_query($connection,$sql);
     if($query->num_rows=="1"){
         session_start();
-        foreach ($query as $nomuser) {
+        /* foreach ($query as $nomuser) {
             $_SESSION['user']=$nomuser['usuario'];
-        }
-        header("Location: ../view/nosotros.html");
+        } */
+        $_SESSION['user']=(mysqli_fetch_array($query)[0]);
+        echo $_SESSION['user'];
+        header("Location: ../view/nosotros.php");
     }else{
         //no existe el usuario o la contraseña esta mal
         header("Location: ../view/login.php?error=0");

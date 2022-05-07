@@ -30,14 +30,21 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="./actividades.html">Actividades</a>
+                        <a class="nav-link" href="./actividades.php">Actividades</a>
                     </li>
                 </ul>
                 <form class="d-flex">
                     <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
                     <button class="btn btn-light form-control me-1" type="submit"><i
                             class="fa-solid fa-arrow-up-from-bracket"></i></button>
-                    <button class="btn btn-light form-control ms-1" type="submit">Acceder</button>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['user'])){
+                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión con {$_SESSION['user']}</a>";
+                    }else{
+                        echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
+                    }
+                    ?> 
                 </form>
             </div>
         </div>
@@ -68,27 +75,33 @@
     </div>
 
     <!-- Random de actividades -->
-
     <div class="row-c padding-m">
         <div class="column-1 padding-m">
             <h5>Subidas recientemente</h5>
         </div>
-
         <div class="column-1 padding-s">
-
-            <div class="column-4 padding-s">
-                <img src="../img/kelly-sikkema-TS6FasMlQWs-unsplash.jpg" alt="" class="target-s">
-            </div>
-            <div class="column-4 padding-s">
-                <img src="../img/etienne-girardet-j2Soo4TfFMk-unsplash.jpg" alt="" class="target-s">
-            </div>
-
-            <div class="column-4 padding-s">
-                <img src="../img/nick-fewings-EkyuhD7uwSM-unsplash.jpg" alt="" class="target-s">
-            </div>
-            <div class="column-4 padding-s">
-                <img src="../img/keila-hotzel-lFmuWU0tv4M-unsplash.jpg" alt="" class="target-s">
-            </div>
+    <?php
+    include '../query/connection.php';
+    $sql1="SELECT Fecha_subida, imagen FROM `actividad`;";
+    $query1=mysqli_query($connection,$sql1);
+    $likes=array();
+    foreach ($query1 as $act) {
+        $likes[$act['imagen']]=$act['Fecha_subida'];      
+    }
+    arsort($likes);
+    $cont=0;
+    foreach ($likes as $link=>$like){
+        if($cont!=4){
+            echo "<div class='column-4 padding-s'>";
+            echo "<img src='../img/{$link}' alt='' class='target-s'>";
+            echo "<br>";
+            echo "</div>";
+        }else{
+             break;
+        }   
+        $cont++; 
+    }  
+    ?>
         </div>
     </div>
 

@@ -24,7 +24,7 @@ if(isset($_POST['Enviar']) && !empty($_POST['mail']) && !empty($_POST['user']) &
             // echo "<br>";
             // die();
             // https://www.baulphp.com/prevenir-la-inyeccion-sql-en-php-ejemplo-completo/
-            header("Location: ../view/nosotros.html");
+            header("Location: ../view/login.php");
             }else{
                 //Nombre de usuario ya insertado.
                 header("Location: ../view/registro.php?error=0");             
