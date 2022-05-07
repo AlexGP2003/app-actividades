@@ -17,44 +17,6 @@
     <script src="sweetalert2.all.min.js"></script>
 </head>
 <body class="b_registro">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../index.html">#AppName</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vh;">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./nosotros.php">Sobre nosotros</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active disabled" aria-current="page" href="./actividades.html">Actividades</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <?php
-                    //Comprobamos que la sesión está iniciada. 
-                    session_start();
-                    //Incluiremos el fichero de conexión 
-                    include '../query/connection.php';
-                    //Si lo esta y tiene establecida la variable de sesión usuario, le pondremos un boton para cerrar sesión que lo redirija a la lógica para cerrar sesión, sino uno de login que lo redirija al formulario del login
-                    if (isset($_SESSION['user'])){
-                        $sql3="SELECT Id FROM `usuario` WHERE usuario='{$_SESSION['user']}';";
-                        $query3=mysqli_query($connection,$sql3);
-                        $IdUser=mysqli_fetch_array($query3);
-                        echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
-                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
-                    }else{
-                        echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
-                        echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
-                    }
-                    ?>                
-                </div>
-            </div>
-        </div>
-    </nav>
     <?php
       //Miramos la variable error, si esta seteada miramos el numero de error
     if (!(isset($_SESSION['user'])) || !isset($_REQUEST['Id'])){

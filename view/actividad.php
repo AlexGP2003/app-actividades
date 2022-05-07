@@ -16,7 +16,7 @@
 </head>
 <body>
     <!--Menu Nav-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.html">#AppName</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,10 +29,12 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active disabled" aria-current="page" href="./actividades.html">Actividades</a>
+                        <a class="nav-link" aria-current="page" href="./actividades.php">Actividades</a>
                     </li>
-                </ul>
-                <div class="d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./topicos.php">Topicos</a>
+                    </li>
+                
                     <?php
                     //Comprobamos que la sesión está iniciada. 
                     session_start();
@@ -40,12 +42,19 @@
                     include '../query/connection.php';
                     //Si lo esta y tiene establecida la variable de sesión usuario, le pondremos un boton para cerrar sesión que lo redirija a la lógica para cerrar sesión, sino uno de login que lo redirija al formulario del login
                     if (isset($_SESSION['user'])){
+                        echo "<li class='nav-item'>";
+                        echo "<a class='nav-link' aria-current='page' href='./misactividades.php'>Mis actividades</a>";
+                        echo "</li>";
+                        echo "</ul>";
+                        echo "<div class='d-flex'>";
                         $sql3="SELECT Id FROM `usuario` WHERE usuario='{$_SESSION['user']}';";
                         $query3=mysqli_query($connection,$sql3);
                         $IdUser=mysqli_fetch_array($query3);
                         echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
                     }else{
+                        echo "</ul>";
+                        echo "<div class='d-flex'>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
                     }

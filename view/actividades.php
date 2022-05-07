@@ -13,7 +13,6 @@
     <script src="https://kit.fontawesome.com/e0b63cee0f.js" crossorigin="anonymous"></script>
     <!-- Hoja de estilos -->
     <link rel="stylesheet" href="../css/main.css">
-
 </head>
 
 <body>
@@ -31,10 +30,12 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active disabled" aria-current="page" href="./actividades.html">Actividades</a>
+                        <a class="nav-link active disabled" aria-current="page" href="./actividades.php">Actividades</a>
                     </li>
-                </ul>
-                <div class="d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./topicos.php">Topicos</a>
+                    </li>
+                
                     <?php
                     //Comprobamos que la sesión está iniciada. 
                     session_start();
@@ -42,12 +43,19 @@
                     include '../query/connection.php';
                     //Si lo esta y tiene establecida la variable de sesión usuario, le pondremos un boton para cerrar sesión que lo redirija a la lógica para cerrar sesión, sino uno de login que lo redirija al formulario del login
                     if (isset($_SESSION['user'])){
+                        echo "<li class='nav-item'>";
+                        echo "<a class='nav-link' aria-current='page' href='./misactividades.php'>Mis actividades</a>";
+                        echo "</li>";
+                        echo "</ul>";
+                        echo "<div class='d-flex'>";
                         $sql3="SELECT Id FROM `usuario` WHERE usuario='{$_SESSION['user']}';";
                         $query3=mysqli_query($connection,$sql3);
                         $IdUser=mysqli_fetch_array($query3);
                         echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
                     }else{
+                        echo "</ul>";
+                        echo "<div class='d-flex'>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
                         echo "<a href='./login.php' class='btn btn-light form-control ms-1' type='button'>Acceder</a>";
                     }
@@ -97,17 +105,20 @@
         </div>
 
         <?php
-        //Seleccionamos todos los datos de las actividades
-         $sql="SELECT * from actividad;";
+        //Seleccionamos todos los datos de las actividades que sean publicas
+         $sql="SELECT * from actividad where Publica != 0;";
          //Realizamos la query
          $query=mysqli_query($connection,$sql);
          foreach ($query as $actividad){
              //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
-             $act=$actividad['Id'];
+            $act=$actividad['Id'];
+            $link="http://localhost/www/app-actividades/actividad.php?act=".$act;
+            echo "<input id='link' type='hidden' value='$link'>";
             echo "<div class='column-3 padding-mobile'>";
+            //Boton para copiar url
             echo "<img onClick='actividad($act)' src='../img/{$actividad['imagen']}' alt='' class='target'>";
             echo "<div style='float: right;' class='padding-m'>";
-            echo "<a class='btn btn-light m-1' type='button' href=''><i class='fa-solid fa-link'></i></a>";
+            echo "<a class='btn btn-light m-1' onClick='copiarAlPortapapeles('link')' type='button'><i class='fa-solid fa-link'></i></a>";
             //Para el boton de like, comprobaremos si esta logeado, si lo esta si y lo tiene como favoritos lo vera verde, si no lo tiene como favoritos o no esta logeado lo vera gris. Y le redirecionaremos a la pagina donde podra ponerlo en favoritos si esta en gris y a donde lo podra quitar como favorito si esta verde. 
             if (isset($_SESSION['user'])){
             $sql2 = "SELECT Id FROM `favoritos` WHERE usuario=(SELECT Id from usuario where usuario='{$_SESSION['user']}') and actividad={$actividad['Id']};";
@@ -130,6 +141,15 @@
         //Funcion para redirijir a la pagina de la actividad.
         function actividad(Id){
             window.location.href="./actividad.php?act="+Id;
+        }
+        //Funcion copiar
+        function copiarAlPortapapeles(id_elemento) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", document.getElementById(id_elemento).innerHTML);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
         }
     </script>
 </body>
