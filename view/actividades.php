@@ -113,12 +113,12 @@
              //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
             $act=$actividad['Id'];
             $link="http://localhost/www/app-actividades/actividad.php?act=".$act;
-            echo "<input id='link' type='hidden' value='$link'>";
+            echo "<input id='$act' type='hidden' value='$link'>";
             echo "<div class='column-3 padding-mobile'>";
             //Boton para copiar url
             echo "<img onClick='actividad($act)' src='../img/{$actividad['imagen']}' alt='' class='target'>";
             echo "<div style='float: right;' class='padding-m'>";
-            echo "<a class='btn btn-light m-1' onClick='copiarAlPortapapeles('link')' type='button'><i class='fa-solid fa-link'></i></a>";
+            echo "<a class='btn btn-light m-1' onClick='copiarAlPortapapeles($act);' type='button'><i class='fa-solid fa-link'></i></a>";
             //Para el boton de like, comprobaremos si esta logeado, si lo esta si y lo tiene como favoritos lo vera verde, si no lo tiene como favoritos o no esta logeado lo vera gris. Y le redirecionaremos a la pagina donde podra ponerlo en favoritos si esta en gris y a donde lo podra quitar como favorito si esta verde. 
             if (isset($_SESSION['user'])){
             $sql2 = "SELECT Id FROM `favoritos` WHERE usuario=(SELECT Id from usuario where usuario='{$_SESSION['user']}') and actividad={$actividad['Id']};";
@@ -143,13 +143,10 @@
             window.location.href="./actividad.php?act="+Id;
         }
         //Funcion copiar
-        function copiarAlPortapapeles(id_elemento) {
-        var aux = document.createElement("input");
-        aux.setAttribute("value", document.getElementById(id_elemento).innerHTML);
-        document.body.appendChild(aux);
-        aux.select();
-        document.execCommand("copy");
-        document.body.removeChild(aux);
+        function copiarAlPortapapeles($act) {
+            let url = document.getElementById($act);
+            url.select();
+            document.execCommand('copy');
         }
     </script>
 </body>

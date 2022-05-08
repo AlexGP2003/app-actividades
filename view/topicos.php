@@ -73,18 +73,13 @@
         </div>
 
         <?php
-        //Seleccionamos todos los datos de las actividades de ese autor 
-         $sql="SELECT distinct(a.topico) as ID ,t.Nombre as Nombre from topicos t inner join actividad a on t.Id=a.topico";
-         //Realizamos la query
-         $top=array();
-         $query=mysqli_query($connection,$sql);
-         foreach ($query as $topics){
-             $top[$topics['Nombre']]=$topics['ID'];
-         }
-         foreach ($top as $topico=>$Idtop){
-            $sql1="SELECT * from actividad where topico=$Idtop";
+        if (isset($_GET['Topico']) && isset($_GET['Id'])){
+            $Nombre=$_GET['Topico'];
+            $Id=$_GET['Id'];
+            $sql1="SELECT * from actividad where topico=$Id";
             $query1=mysqli_query($connection,$sql1);
-            echo "<div class='column-1 padding-m'><h4 class='padding-m'>$topico</h4></div>";
+            echo "<div class='column-1 padding-m'><h4 class='padding-m'>$Nombre</h4></div>";
+            //Luego presentamos todas
             foreach ($query1 as $actividad){
                 //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
                $act=$actividad['Id'];
@@ -107,7 +102,45 @@
        }
        echo "</div>";
        echo "</div>";
-         }}
+         }
+        }else{
+        //Seleccionamos el nombre y id del topico y creamos un array asociatvio donde pondremos Nombre->Id
+         $sql="SELECT distinct(a.topico) as ID ,t.Nombre as Nombre from topicos t inner join actividad a on t.Id=a.topico";
+         //Realizamos la query
+         $top=array();
+         $query=mysqli_query($connection,$sql);
+         foreach ($query as $topics){
+             $top[$topics['Nombre']]=$topics['ID'];
+         }
+         //Para cada topico lo que haremos es selecionar todos las actividades de este topico y crear un titulo con ese topico 
+         foreach ($top as $topico=>$Idtop){
+            $sql1="SELECT * from actividad where topico=$Idtop";
+            $query1=mysqli_query($connection,$sql1);
+            echo "<div class='column-1 padding-m'><h4 class='padding-m'>$topico</h4></div>";
+            //Luego presentamos todas
+            foreach ($query1 as $actividad){
+                //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
+               $act=$actividad['Id'];
+               echo "<div class='column-3 padding-mobile'>";
+               echo "<img onClick='actividad($act)' src='../img/{$actividad['imagen']}' alt='' class='target'>";
+               echo "<div style='float: right;' class='padding-m'>";
+               echo "<a class='btn btn-light m-1' type='button' href=''><i class='fa-solid fa-link'></i></a>";
+               //Para el boton de like, comprobaremos si esta logeado, si lo esta si y lo tiene como favoritos lo vera verde, si no lo tiene como favoritos o no esta logeado lo vera gris. Y le redirecionaremos a la pagina donde podra ponerlo en favoritos si esta en gris y a donde lo podra quitar como favorito si esta verde. 
+               if (isset($_SESSION['user'])){
+               $sql2 = "SELECT Id FROM `favoritos` WHERE usuario=(SELECT Id from usuario where usuario='{$_SESSION['user']}') and actividad={$actividad['Id']};";
+               $query2 = mysqli_query($connection,$sql2);
+               if ($query2->num_rows==0){
+               echo "<a class='btn btn-light m-1' type='button' href='../logic/favoritos.logic.php?act={$actividad['Id']}'><i class='fa-solid fa-heart'></i></a>";
+           }else{
+               $Id=mysqli_fetch_array($query2)[0];
+               echo "<a class='btn btn-success m-1' type='button' href='../logic/disfavoritos.logic.php?Id=$Id'><i class='fa-solid fa-heart'></i></a>";
+           }
+       }else{
+           echo "<a class='btn btn-ligth m-1' type='button' href='../logic/favoritos.logic.php?act={$actividad['Id']}'><i class='fa-solid fa-heart'></i></a>";
+       }
+       echo "</div>";
+       echo "</div>";
+         }}}
          ?>
     </div>
 </body>

@@ -70,9 +70,19 @@
     <div class="row-c padding-m">
         <div class="column-66 padding-m padding-right">
             <h5>Topics</h5>
-            <button type="button" class="btn btn-primary mt-1">matemáticas</button>
-            <button type="button" class="btn btn-info mt-1">informática</button>
-            <button type="button" class="btn btn-dark mt-1">...</button>
+            <?php
+            $sql="SELECT distinct(a.topico) as ID ,t.Nombre as Nombre from topicos t inner join actividad a on t.Id=a.topico";
+            //Realizamos la query
+            $top=array();
+            $query=mysqli_query($connection,$sql);
+            foreach ($query as $topics){
+                $top[$topics['Nombre']]=$topics['ID'];
+            }
+            foreach ($top as $Nombre=>$Id){
+                echo "<a type='button' class='btn btn-dark mt-1' href='./topicos.php?Topico=$Nombre&Id=$Id'>$Nombre</a>  ";
+            }
+            ?>
+        <a type='button' class='btn btn-dark mt-1' href='./topicos.php'>...</a> 
         </div>
     </div>
 
