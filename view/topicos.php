@@ -83,10 +83,12 @@
             foreach ($query1 as $actividad){
                 //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
                $act=$actividad['Id'];
+               $link="http://localhost/www/app-actividades/view/actividad.php?act=".$act;
+               echo "<input id='$act' type='hidden' value='$link'>";   
                echo "<div class='column-3 padding-mobile'>";
                echo "<img onClick='actividad($act)' src='../img/{$actividad['imagen']}' alt='' class='target'>";
                echo "<div style='float: right;' class='padding-m'>";
-               echo "<a class='btn btn-light m-1' type='button' href=''><i class='fa-solid fa-link'></i></a>";
+               echo "<a class='btn btn-light m-1' onClick='setClipboard($act)' type='button'><i class='fa-solid fa-link'></i></a>";
                //Para el boton de like, comprobaremos si esta logeado, si lo esta si y lo tiene como favoritos lo vera verde, si no lo tiene como favoritos o no esta logeado lo vera gris. Y le redirecionaremos a la pagina donde podra ponerlo en favoritos si esta en gris y a donde lo podra quitar como favorito si esta verde. 
                if (isset($_SESSION['user'])){
                $sql2 = "SELECT Id FROM `favoritos` WHERE usuario=(SELECT Id from usuario where usuario='{$_SESSION['user']}') and actividad={$actividad['Id']};";
@@ -121,10 +123,12 @@
             foreach ($query1 as $actividad){
                 //Para cada actividad le pondremos la imagen que tendra una funcion para redirijirlo a la pagina de actividad un boton para conseguir el link de la imagen y otro para darle like
                $act=$actividad['Id'];
+               $link="http://localhost/www/app-actividades/view/actividad.php?act=".$act;
+               echo "<input id='$act' type='hidden' value='$link'>";   
                echo "<div class='column-3 padding-mobile'>";
                echo "<img onClick='actividad($act)' src='../img/{$actividad['imagen']}' alt='' class='target'>";
                echo "<div style='float: right;' class='padding-m'>";
-               echo "<a class='btn btn-light m-1' type='button' href=''><i class='fa-solid fa-link'></i></a>";
+               echo "<a class='btn btn-light m-1' onClick='setClipboard($act)' type='button'><i class='fa-solid fa-link'></i></a>";
                //Para el boton de like, comprobaremos si esta logeado, si lo esta si y lo tiene como favoritos lo vera verde, si no lo tiene como favoritos o no esta logeado lo vera gris. Y le redirecionaremos a la pagina donde podra ponerlo en favoritos si esta en gris y a donde lo podra quitar como favorito si esta verde. 
                if (isset($_SESSION['user'])){
                $sql2 = "SELECT Id FROM `favoritos` WHERE usuario=(SELECT Id from usuario where usuario='{$_SESSION['user']}') and actividad={$actividad['Id']};";
@@ -143,5 +147,19 @@
          }}}
          ?>
     </div>
+    <script>
+        //Funcion para redirijir a la pagina de la actividad.
+        function actividad(Id){
+            window.location.href="./actividad.php?act="+Id;
+        }
+        //Funcion copiar
+            function setClipboard(act) {
+            var copyText = document.getElementById(act);
+            copyText.type = 'text';
+            copyText.select();
+            document.execCommand("copy");
+            copyText.type = 'hidden';
+        }
+    </script>
 </body>
 </html>

@@ -125,6 +125,12 @@ main p {
 
 /* Otras clases */
 
+.ali_r{
+    text-align: right;
+}
+.ali_l{
+    text-align: left;
+}
 .b_registro {
     background-color: #242930;
 }
@@ -262,7 +268,7 @@ img {
         background-color: #d0d0d0;
     }
     .br_boton{
-        margin: 10%;
+        margin: 7%;
     }
 
 }

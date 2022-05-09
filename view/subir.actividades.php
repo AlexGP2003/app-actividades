@@ -19,8 +19,9 @@
 <body class="b_registro">
     <?php
       //Miramos la variable error, si esta seteada miramos el numero de error
+      session_start();
     if (!(isset($_SESSION['user'])) || !isset($_REQUEST['Id'])){
-        header("Location: ./index.html"); 
+        header("Location: ../index.html"); 
     }
   if (isset($_GET['err'])){
     if($_GET['err']==1){
@@ -67,21 +68,29 @@
           <div class="mb-3">
           <label for="dur" class="form-label">Duración de la actividad</label>
             <input type="text" class="form-control recolocarform" name="dur" placeholder="Añade la duración estimada de la actividad" required>
-          </div>
+</div>
           
           <div class="mb-3">
+            <label for="img" class="form-label">Imagen de la actividad</label>
+            <input type="file" class="form-control recolocarform" name="img" required>
+          </div>
+          <div class="mb-3">
+          <div class="column-2">
+          <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="Publica">
+           <label class="form-check-label" for="flexCheckDefault">
+            Publica
+            </label>
+</div>
+          <div class="column-2 br_boton">
           <label for="topic" class="form-label">Tópico</label>
             <select  name="topic" class="" required>                   
                 <option value="1">Informatica</option>
                 <option value="2">Matematicas</option>
             </select>
           </div>
-          
-          <div class="mb-3">
-            <label for="img" class="form-label">Imagen de la actividad</label>
-            <input type="file" class="form-control recolocarform" name="img" required>
           </div>
-
+          <br>
+          <br>
           <br>
           <div class="column-2">
           <button type="submit" class="btn btn-secondary " name="Crear">Crear</button>

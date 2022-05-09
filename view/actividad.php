@@ -29,7 +29,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="./actividades.php">Actividades</a>
+                        <a class="nav-link active disabled" aria-current="page" href="./actividades.php">Actividades</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="./topicos.php">Topicos</a>

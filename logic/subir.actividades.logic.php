@@ -23,6 +23,12 @@ if(!(empty($_POST['nombre'])) && !(empty($_POST['desc'])) && !(empty($_POST['dur
     $duract = $_POST['dur']; 
     $tipact = $_POST['topic'];
     $imgact = $_FILES['img'];
+    //Miramos si ha marcado la checkbox
+    if (isset($_POST['Publica'])){
+        $publi=$_POST['Publica'];
+    }else{
+        $publi=0;
+    }
     //Miramos el dia de hoy
     $dia=getdate();
     //Y lo ponemos en el formato necesario para sql
@@ -39,7 +45,7 @@ if(!(empty($_POST['nombre'])) && !(empty($_POST['desc'])) && !(empty($_POST['dur
         $exito=move_uploaded_file($imgact['tmp_name'],$destino);
         //Si podemos subirla insertaremos los datos y lo llevaremos a actividades y sino lo llevamreos a subiractividades
         if ($exito){
-            $sql = "INSERT INTO `actividad` (`Id`, `Fecha_subida`, `Descripcion`, `imagen`, `tiempo_estimado`, `autor`, `topico`) VALUES (NULL, '$fecha', '$desact', '$destinoguardar', '$duract', '$Id', '$tipact')";
+            $sql = "INSERT INTO `actividad` (`Id`, `Fecha_subida`, `Descripcion`, `imagen`, `tiempo_estimado`, `autor`, `topico`,`Publica`) VALUES (NULL, '$fecha', '$desact', '$destinoguardar', '$duract', '$Id', '$tipact','$publi')";
             $query= mysqli_query($connection,$sql);
             header("Location: ../view/actividades.php");
         }else{
