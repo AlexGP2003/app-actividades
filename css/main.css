@@ -125,12 +125,14 @@ main p {
 
 /* Otras clases */
 
-.ali_r{
+.ali_r {
     text-align: right;
 }
-.ali_l{
+
+.ali_l {
     text-align: left;
 }
+
 .b_registro {
     background-color: #242930;
 }
@@ -200,7 +202,6 @@ img {
 }
 
 
-
 /* Responsive: 800px */
 
 @media only screen and (max-width: 800px) {
@@ -267,10 +268,15 @@ img {
         border-style: groove;
         background-color: #d0d0d0;
     }
-    .br_boton{
+    .br_boton {
         margin: 7%;
     }
+}
 
+@media screen and (max-width: 630px) {
+    .br_nuevcuen {
+        margin-top: 1.5%;
+    }
 }
 
 

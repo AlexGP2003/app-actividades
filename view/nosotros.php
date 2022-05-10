@@ -53,7 +53,7 @@
                         $query3=mysqli_query($connection,$sql3);
                         $IdUser=mysqli_fetch_array($query3);
                         echo "<a href='./subir.actividades.php?Id=$IdUser[0]' class='btn btn-light form-control ms-1' type='button'><i class='fa-solid fa-arrow-up-from-bracket'></i></a>";
-                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Cerrar sesión</a>";
+                        echo "<a href='../logic/cerrarsesion.logic.php' class='btn btn-light form-control ms-1' type='button'>Logout</a>";
                     }else{
                         echo "</ul>";
                         echo "<div class='d-flex'>";
